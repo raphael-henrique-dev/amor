@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quer namorar comigo?</title>
-    <!-- Google Fonts para tipografia moderna -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&display=swap" rel="stylesheet">
@@ -27,7 +26,6 @@
         body {
             font-family: 'Inter', sans-serif;
             background-color: var(--pink-light);
-            /* Padrão de fundo fofo (bolinhas) */
             background-image: radial-gradient(#ffc2d1 20%, transparent 20%), radial-gradient(#ffc2d1 20%, transparent 20%);
             background-size: 24px 24px;
             background-position: 0 0, 12px 12px;
@@ -36,7 +34,7 @@
             align-items: center;
             min-height: 100vh;
             color: var(--text-color);
-            overflow: hidden; /* Para não criar scroll quando o botão fugir */
+            overflow: hidden;
         }
 
         .card {
@@ -52,7 +50,6 @@
             width: 90%;
             z-index: 10;
             border: 2px solid rgba(255, 255, 255, 0.5);
-            /* Animação suave flutuante */
             animation: float 6s ease-in-out infinite;
         }
 
@@ -92,7 +89,7 @@
             justify-content: center;
             align-items: center;
             gap: 1.5rem;
-            min-height: 55px; /* Para manter o espaço quando o botão sair */
+            min-height: 55px;
             position: relative;
         }
 
@@ -129,7 +126,6 @@
             background: var(--yellow-pastel);
             color: var(--text-color);
             box-shadow: 0 6px 20px rgba(253, 253, 150, 0.6);
-            /* Transição para o movimento ser mais suave */
             transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
@@ -151,7 +147,6 @@
             to { opacity: 1; transform: scale(1); }
         }
 
-        /* Estilos dos Confetes */
         .confetti {
             position: absolute;
             width: 12px;
@@ -174,14 +169,14 @@
 <body>
 
     <div class="card" id="card">
-        <div class="heart" id="heart"**/>❤️</div>
-        <h1 id="title">quer namorar comigo?</h1>
+        <div class="heart" id="heart">❤️</div>
+        <h1 id="title">Quer namorar comigo?</h1>
         <div class="buttons-container" id="buttons-container">
-            <button class="btn-yes" id="btn-yes">simm</button>
-            <button class="btn-no" id="btn-no">nao eu te odeio</button>
+            <button class="btn-yes" id="btn-yes">Sim!</button>
+            <button class="btn-no" id="btn-no">Não</button>
         </div>
         <div class="success-message" id="success-message">
-            eu te amo 💖
+            Eu sabia que você diria sim! 🥰💖
         </div>
     </div>
 
@@ -196,16 +191,13 @@
         let isRunningAway = false;
 
         function moveButton(e) {
-            // Se for touch, previne o comportamento padrão para não clicar por acidente
             if (e.type === 'touchstart') {
                 e.preventDefault();
             }
             
             if (!isRunningAway) {
-                // Na primeira vez que foge, tira o botão do fluxo flexbox e coloca fixo no body
                 const rect = btnNo.getBoundingClientRect();
                 
-                // Definir largura fixa para evitar redimensionamento estranho
                 btnNo.style.width = rect.width + 'px';
                 btnNo.style.height = rect.height + 'px';
                 
@@ -214,7 +206,6 @@
                 btnNo.style.left = rect.left + 'px';
                 btnNo.style.top = rect.top + 'px';
                 
-                // Força um pequeno delay antes do primeiro pulo
                 setTimeout(jump, 50);
                 isRunningAway = true;
                 return;
@@ -225,13 +216,11 @@
 
         function jump() {
             const btnRect = btnNo.getBoundingClientRect();
-            const padding = 20; // Manter distância das bordas
+            const padding = 20;
             
-            // Calcula o espaço disponível na tela
             const maxX = window.innerWidth - btnRect.width - padding;
             const maxY = window.innerHeight - btnRect.height - padding;
             
-            // Gera nova posição aleatória
             const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
             const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
             
@@ -239,65 +228,54 @@
             btnNo.style.top = randomY + 'px';
         }
 
-        // Eventos para mouse (desktop) e toque (mobile)
         btnNo.addEventListener('mouseover', moveButton);
         btnNo.addEventListener('touchstart', moveButton, { passive: false });
 
-        // Animação de sucesso quando clica em "Sim"
         btnYes.addEventListener('click', () => {
-            // Esconde os botões e altera o texto
             buttonsContainer.style.display = 'none';
             if (isRunningAway) {
                 btnNo.style.display = 'none';
             } else {
-                btnNo.style.display = 'none'; // Caso a pessoa seja muito rápida
+                btnNo.style.display = 'none';
             }
             
             title.style.display = 'none';
             heart.textContent = '💖';
             successMessage.style.display = 'block';
             
-            // Dispara a festa!
             createConfetti();
         });
 
         function createConfetti() {
             const colors = ['#ff6699', '#ff4d4d', '#fdfd96', '#ffd1dc', '#ffeb3b', '#e1bee7'];
             
-            // Gera 120 confetes em momentos diferentes
-            for (let i = 0; i < 1200; i++) {
+            for (let i = 0; i < 120; i++) {
                 setTimeout(() => {
                     const confetti = document.createElement('div');
                     confetti.classList.add('confetti');
                     
-                    // Posição inicial (aleatória no topo da tela)
                     confetti.style.left = Math.random() * 100 + 'vw';
                     confetti.style.top = '-20px';
                     
-                    // Cor aleatória
                     confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
                     
-                    // Formato aleatório (bolinhas e quadradinhos)
                     if (Math.random() > 0.5) {
                         confetti.style.borderRadius = '50%';
                     }
                     
-                    // Tamanho aleatório
                     const size = Math.random() * 8 + 6;
                     confetti.style.width = size + 'px';
                     confetti.style.height = size + 'px';
                     
-                    // Duração da queda aleatória
                     const duration = Math.random() * 2 + 1.5;
                     confetti.style.animationDuration = duration + 's';
                     
                     document.body.appendChild(confetti);
                     
-                    // Limpa do DOM depois que a animação acaba
                     setTimeout(() => {
                         confetti.remove();
                     }, duration * 1000);
-                }, i * 20); // Cria um confete a cada 20ms para fazer o efeito de chuva
+                }, i * 20);
             }
         }
     </script>
